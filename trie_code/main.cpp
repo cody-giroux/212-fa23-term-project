@@ -13,9 +13,15 @@ int main(int argc, char* argv[]){
 
     std::string word;
     while (inputFile >> word) {
-        trie.insert(word);
+        if (word.find('0') || word.find('1') || word.find('2') || word.find('3') || word.find('4') ||
+            word.find('5') || word.find('6') || word.find('7') || word.find('8') || word.find('9') ||
+            word.find('-') || word.find(' ')){
+            std::cout<< "Invalid word, contains illegal characters" << std::endl;
+            continue;
+        } else {
+            trie.insert(word);
+        }
     }
-
     // Search for a word in the trie
     std::string searchWord;
     std::cout << "Input the word you would like to search for: " << std :: endl;
