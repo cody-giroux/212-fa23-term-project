@@ -1,10 +1,11 @@
 #include "trie.h"
 
-int main() {
+int main(int argc, char* argv[]){
+    std::string fileName = argv[1];
     Trie trie;
 
     // Read words from input text file
-    std::ifstream inputFile("input.txt");
+    std::ifstream inputFile(fileName);
     if (!inputFile.is_open()) {
         std::cerr << "Error: Unable to open input file\n";
         return 1;
