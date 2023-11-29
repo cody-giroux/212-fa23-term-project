@@ -6,7 +6,7 @@ int main(int argc, char* argv[]){
 
     // Read words from input text file
     std::ifstream inputFile(fileName);
-    if (!inputFile.is_open()) {
+    if (!inputFile.is_open() or argc == 0) {
         std::cerr << "Error: Unable to open input file\n";
         return 1;
     }
