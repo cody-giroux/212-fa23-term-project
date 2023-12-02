@@ -1,5 +1,14 @@
 #include "trie.h"
 
+bool validInput(std::string word){
+    for (int letter : word) {
+        if ( !( (letter >= 'A') && (letter <= 'Z') ) && !( (letter >= 'a') && (letter <= 'z') ) ) {
+            return false;
+        }
+    }
+    return true;
+}
+
 int main(int argc, char* argv[]){
     std::string fileName = argv[1];
     Trie trie;
@@ -11,17 +20,16 @@ int main(int argc, char* argv[]){
         return 1;
     }
 
+    // Validates words before inputting into trie
     std::string word;
     while (inputFile >> word) {
-        if (word.find('0') || word.find('1') || word.find('2') || word.find('3') || word.find('4') ||
-            word.find('5') || word.find('6') || word.find('7') || word.find('8') || word.find('9') ||
-            word.find('-') || word.find(' ')){
-            std::cout<< "Invalid word, contains illegal characters" << std::endl;
-            continue;
-        } else {
+        if( validInput(word) ){
             trie.insert(word);
+        }else{
+            std::cout << "Invalid word ' " << word << " ' contains illegal characters" << std::endl;
         }
     }
+    
     // Search for a word in the trie
     std::string searchWord;
     std::cout << "Input the word you would like to search for: " << std :: endl;
