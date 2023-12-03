@@ -32,14 +32,23 @@ int main(int argc, char* argv[]){
     
     // Search for a word in the trie
     std::string searchWord;
-    std::cout << "Input the word you would like to search for: " << std :: endl;
+    std::cout << "> Input the word you would like to search for, or '-q' to quit: ";
     std::cin >> searchWord;
 
-    auto result = trie.search(searchWord);
-    if (result.first) {
-        std::cout << "Word '" << searchWord << "' found. Count: " << result.second << std::endl;
-    } else {
-        std::cout << "Word '" << searchWord << "' not found.\n";
+    while (searchWord != "-q") {
+        // Check if search valid
+        if (validInput(searchWord)) {
+            auto result = trie.search(searchWord);
+            if (result.first) {
+                std::cout << "Word '" << searchWord << "' found. Count: " << result.second << std::endl;
+            } else {
+                std::cout << "Word '" << searchWord << "' not found.\n";
+            }
+        } else {
+            std::cout << "Invalid search" << std::endl;
+        }
+        std::cout << "> Input the word you would like to search for, or '-q' to quit: ";
+        std::cin >> searchWord;
     }
 
     // Generate DOT file for visualization
