@@ -1,4 +1,5 @@
 #include "trie.h"
+#include <vector> 
 
 Trie::Trie() {
     root = new TrieNode();
@@ -6,9 +7,8 @@ Trie::Trie() {
 
 void Trie::insert(const std::string& word) {
     TrieNode* current = root;
-    //loops through all the characters in the word to check if the character in word exist as a key in the children map
+   
     for (char ch : word) {
-        ch = tolower(ch);
         if (current->children.find(ch) == current->children.end()) {
             current->children[ch] = new TrieNode();
         }
@@ -19,13 +19,13 @@ void Trie::insert(const std::string& word) {
     current->count++;
 }
 
+
 std::pair<bool, int> Trie::search(const std::string& word) {
     TrieNode* current = root;
     int prefixCount = 0;
     //searches through the word and checks if the character in the word exist as a key in the childrent map and returns false 
     // moves current to children node corresponding to character in word
     for (char ch : word) {
-        ch = tolower(ch);
         if (current->children.find(ch) == current->children.end()) {
             return {false, 0};
         }
@@ -34,6 +34,19 @@ std::pair<bool, int> Trie::search(const std::string& word) {
     }
     return {current->isEndOfWord, prefixCount};
 }
+
+void Trie:: autocomplete(const std::string&word){
+    TrieNode* current = root;
+    std::vector<std::string> prefix;  
+    for(char ch : word){
+        if(current->children.find(ch) == current->children.end()){
+            current = current->children[ch]; 
+            
+        }
+    }
+}
+
+
 
 void Trie::generateDotFile(const std::string& filename) {
     std::ofstream dotFile(filename);
