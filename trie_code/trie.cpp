@@ -66,8 +66,10 @@ std::vector<std::string> Trie::autocomplete(const std::string& prefix) {
     // Use BFS to find all complete words under  node
     std::queue<std::pair<TrieNode*, std::string>> bfsQueue;
     bfsQueue.push({current, prefix});
-    //optted out of recursive depth first search as queue's were easier to wrap head around
-    while (!bfsQueue.empty()) {
+    // Opted out of recursive depth first search as queues were easier to wrap head around
+    // Set max amount of words to be outputted to avoid possible issues with few letter searches
+    int maxOutputWords = 20;
+    while (( !bfsQueue.empty() ) && ( result.size() < maxOutputWords)) {
         auto currentPair = bfsQueue.front();
         bfsQueue.pop();
 
