@@ -29,7 +29,12 @@ int main(int argc, char* argv[]){
             std::cout << "Invalid word ' " << word << " ' contains illegal characters" << std::endl;
         }
     }
-    
+
+    std::string mode;
+    std::cout <<"To search for a word please type in '-s'. To use autocomplete, type in '-a': ";
+    std::cin >> mode;
+
+    if (mode == "-s"){
     // Search for a word in the trie
     std::string searchWord;
     std::cout << "> Input the word you would like to search for, or '-q' to quit: ";
@@ -53,6 +58,24 @@ int main(int argc, char* argv[]){
 
     // Generate DOT file for visualization
     trie.generateDotFile("trie_visualization.dot");
+    }
 
+    if (mode == "-a"){
+        std::string autoWord;
+        std::cout << "> Input part of the word you would like to attempt to auto complete, or '-q' to quit: ";
+        std::cin >> autoWord;
+        while (autoWord != "-q"){
+            std::vector<std::string> autocompleteResults = trie.autocomplete(autoWord);
+            std::cout << "Here is a list of potential words you were looking for with the given prefix of: '" << autoWord << "': " << std::endl;
+            for (const auto& word : autocompleteResults){
+                std::cout << word << ", ";
+            }
+            std::cout<<std::endl;
+            std::cout << "> Input part of the word you would like to attempt to auto complete, or '-q' to quit: ";
+            std::cin >> autoWord;
+        }
+    }
+
+    std::cout << "Goodbye!" << std::endl;
     return 0;
 }

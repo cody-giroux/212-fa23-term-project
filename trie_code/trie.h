@@ -4,6 +4,8 @@
 #include <iostream>
 #include <fstream>
 #include <unordered_map>
+#include <vector>
+#include <queue>
 
 class TrieNode {
 public:
@@ -25,6 +27,10 @@ public:
     std::pair<bool, int> search(const std::string& word);
 
     void generateDotFile(const std::string& filename);
+
+    std::vector<std::string> autocomplete(const std::string& prefix);
+
+
 
 private:
     void generateDot(TrieNode* node, std::ofstream& dotFile, const std::string& prefix);

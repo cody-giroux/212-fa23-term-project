@@ -45,3 +45,39 @@ void Trie::generateDot(TrieNode* node, std::ofstream& dotFile, const std::string
         generateDot(child.second,    dotFile, prefix + child.first);
     }
 }
+
+std::vector<std::string> Trie::autocomplete(const std::string& prefix) {
+    std::vector<std::string> result;
+    TrieNode* current = root;
+
+    // Traverse to the node corresponding to the prefix
+    for (char ch : prefix) {
+        ch = tolower(ch);
+        if (current->children.find(ch) == current->children.end()) {
+            return result; // if prefix is not found
+        }
+        current = current->children[ch];
+    }
+
+    // Use breadth first search to find all words under the node
+    std::queue<std::pair<TrieNode*, std::string>> bfsQueue;
+    bfsQueue.push({current, prefix});
+
+    while (!bfsQueue.empty()) {
+        auto currentPair = bfsQueue.front();
+        bfsQueue.pop();
+
+        TrieNode* currentNode = currentPair.first;
+        std::string currentPrefix = currentPair.second;
+
+        if (currentNode->count > 0) {
+            result.push_back(currentPrefix);
+        }
+
+        for (const auto& child : currentNode->children) {
+            bfsQueue.push({child.second, currentPrefix + child.first});
+        }
+    }
+
+    return result;
+}
