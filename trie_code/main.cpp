@@ -37,7 +37,7 @@ int main(int argc, char* argv[]){
             std::cout << "Invalid word ' " << word << " ' contains illegal characters and was not included" << std::endl;
         }
     }
-    
+
     // Main user input loop
     std::string mode;
     std::cout << "> To search for a word type in '-s'.\n";
@@ -56,7 +56,9 @@ int main(int argc, char* argv[]){
                 if (validInput(searchWord)) {
                     auto result = trie.search(searchWord);
                     if (result.first) {
-                        std::cout << "Word '" << searchWord << "' found. Count: " << result.second << std::endl;
+                        std::cout << "Word '" << searchWord << "' found." << "\n";;
+                        std::cout << "Times identical word appears in data: " << result.second << "\n";
+                        std::cout << "Times word is used as a prefix: " << result.third << std::endl;
                     } else {
                         std::cout << "Word '" << searchWord << "' not found.\n";
                     }
