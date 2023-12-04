@@ -13,8 +13,8 @@ void Trie::insert(const std::string& word) {
             current->children[ch] = new TrieNode();
         }
         current = current->children[ch];
+        current->count++;
     }
-    current->count++;
 }
 
 std::pair<bool, int> Trie::search(const std::string& word) {
