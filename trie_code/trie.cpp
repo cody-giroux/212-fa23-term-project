@@ -20,19 +20,22 @@ void Trie::insert(const std::string& word) {
 }
 
 
-std::pair<bool, int> Trie::search(const std::string& word) {
+Trie::trio Trie::search(const std::string& word) {
     TrieNode* current = root;
+    int identicalCount = 0;
     int prefixCount = 0;
-    //searches through the word and checks if the character in the word exist as a key in the childrent map and returns false 
+    //searches through the word and checks if the character in the word exist as a key in the childrent map and returns false
     // moves current to children node corresponding to character in word
     for (char ch : word) {
+        ch = tolower(ch);
         if (current->children.find(ch) == current->children.end()) {
             return {false, 0};
         }
         current = current->children[ch];
+        identicalCount = current->count;
         prefixCount = current->prefixCount;
     }
-    return {current->isEndOfWord, prefixCount};
+    return {current->isEndOfWord, identicalCount, prefixCount};
 }
 
 void Trie::generateDotFile(const std::string& filename) {
