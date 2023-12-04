@@ -10,9 +10,11 @@
 class TrieNode {
 public:
     std::unordered_map<char, TrieNode*> children;
-    int count;
+    bool isEndOfWord;
+    int count;          // Count for the specific word
+    int prefixCount;    // Count for words sharing the common prefix
 
-    TrieNode() : count(0) {}
+    TrieNode() : isEndOfWord(false), count(0), prefixCount(0) {}
 };
 
 class Trie {

@@ -13,12 +13,15 @@ void Trie::insert(const std::string& word) {
             current->children[ch] = new TrieNode();
         }
         current = current->children[ch];
-        current->count++;
+        current->prefixCount++;  // Increment prefix count at each node
     }
+    current->isEndOfWord = true;
+    current->count++;
 }
 
 std::pair<bool, int> Trie::search(const std::string& word) {
     TrieNode* current = root;
+    int prefixCount = 0;
     //searches through the word and checks if the character in the word exist as a key in the childrent map and returns false 
     // moves current to children node corresponding to character in word
     for (char ch : word) {
@@ -27,8 +30,9 @@ std::pair<bool, int> Trie::search(const std::string& word) {
             return {false, 0};
         }
         current = current->children[ch];
+        prefixCount = current->prefixCount;
     }
-    return {true, current->count};
+    return {current->isEndOfWord, prefixCount};
 }
 
 void Trie::generateDotFile(const std::string& filename) {
@@ -42,7 +46,7 @@ void Trie::generateDotFile(const std::string& filename) {
 void Trie::generateDot(TrieNode* node, std::ofstream& dotFile, const std::string& prefix) {
     for (const auto& child : node->children) {
         dotFile << "  \"" << prefix << "\" -> \"" << prefix + child.first << "\";\n";
-        generateDot(child.second,    dotFile, prefix + child.first);
+        generateDot(child.second, dotFile, prefix + child.first);
     }
 }
 
@@ -54,15 +58,15 @@ std::vector<std::string> Trie::autocomplete(const std::string& prefix) {
     for (char ch : prefix) {
         ch = tolower(ch);
         if (current->children.find(ch) == current->children.end()) {
-            return result; // if prefix is not found
+            return result; // Prefix not found
         }
         current = current->children[ch];
     }
 
-    // Use breadth first search to find all words under the node
+    // Use BFS to find all complete words under  node
     std::queue<std::pair<TrieNode*, std::string>> bfsQueue;
     bfsQueue.push({current, prefix});
-
+    //optted out of recursive depth first search as queue's were easier to wrap head around
     while (!bfsQueue.empty()) {
         auto currentPair = bfsQueue.front();
         bfsQueue.pop();
@@ -70,7 +74,8 @@ std::vector<std::string> Trie::autocomplete(const std::string& prefix) {
         TrieNode* currentNode = currentPair.first;
         std::string currentPrefix = currentPair.second;
 
-        if (currentNode->count > 0) {
+        // Check if the current node is the end of a complete word
+        if (currentNode->isEndOfWord) {
             result.push_back(currentPrefix);
         }
 
