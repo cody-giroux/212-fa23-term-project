@@ -26,7 +26,8 @@ public:
 
     void insert(const std::string& word);
 
-    std::pair<bool, int> search(const std::string& word);
+    struct trio{bool first; int second; int third;};
+    trio search(const std::string& word);
 
     void generateDotFile(const std::string& filename);
 
