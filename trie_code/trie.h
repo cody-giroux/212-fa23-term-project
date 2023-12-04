@@ -4,13 +4,17 @@
 #include <iostream>
 #include <fstream>
 #include <unordered_map>
+#include <vector>
+#include <queue>
 
 class TrieNode {
 public:
     std::unordered_map<char, TrieNode*> children;
-    int count;
+    bool isEndOfWord;
+    int count;          // Count for the specific word
+    int prefixCount;    // Count for words sharing the common prefix
 
-    TrieNode() : count(0) {}
+    TrieNode() : isEndOfWord(false), count(0), prefixCount(0) {}
 };
 
 class Trie {
@@ -25,6 +29,10 @@ public:
     std::pair<bool, int> search(const std::string& word);
 
     void generateDotFile(const std::string& filename);
+
+    std::vector<std::string> autocomplete(const std::string& prefix);
+
+
 
 private:
     void generateDot(TrieNode* node, std::ofstream& dotFile, const std::string& prefix);
