@@ -35,19 +35,6 @@ std::pair<bool, int> Trie::search(const std::string& word) {
     return {current->isEndOfWord, prefixCount};
 }
 
-void Trie:: autocomplete(const std::string&word){
-    TrieNode* current = root;
-    std::vector<std::string> prefix;  
-    for(char ch : word){
-        if(current->children.find(ch) == current->children.end()){
-            current = current->children[ch]; 
-            
-        }
-    }
-}
-
-
-
 void Trie::generateDotFile(const std::string& filename) {
     std::ofstream dotFile(filename);
     dotFile << "digraph Trie {\n";
