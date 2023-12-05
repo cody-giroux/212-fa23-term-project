@@ -35,10 +35,6 @@ public:
 
     std::vector<std::string> autocomplete(const std::string& prefix);
 
-    std::vector<std::string>spellcheck(const std::string&word); 
-
-    void findSimilarWords(TrieNode* node, const std::string& word, std::vector<std::string>& similarWords, double threshold);
-
 
 
 private:
