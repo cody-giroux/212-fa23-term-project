@@ -40,6 +40,7 @@ int main(int argc, char* argv[]){
 
     // Main user input loop
     std::string mode;
+    std::cout << "----------- Mode Select ------------\n";
     std::cout << "> To search for a word type in '-s'.\n";
     std::cout << "> To use autocomplete, type in '-a'.\n";
     std::cout << "> To quit the program type '-q'.\n";
@@ -48,7 +49,8 @@ int main(int argc, char* argv[]){
         if (mode == "-s") {
             // Search for a word in the trie
             std::string searchWord;
-            std::cout << "> Input the word you would like to search for, or '-q' to quit to menu: ";
+            std::cout << "------- Database Word Search -------\n";
+            std::cout << "> Input the word you would like to search for, or '-q' to quit to mode select: ";
             std::cin >> searchWord;
 
             while (searchWord != "-q") {
@@ -65,13 +67,14 @@ int main(int argc, char* argv[]){
                 } else {
                     std::cout << "Invalid search" << std::endl;
                 }
-                std::cout << "> Input the word you would like to search for, or '-q' to quit: ";
+                std::cout << "> Input the word you would like to search for, or '-q' to quit to mode select: ";
                 std::cin >> searchWord;
             }
         }
 
         if (mode == "-a") {
             std::string autoWord;
+            std::cout << "-------- Word Autocomplete ---------\n";
             std::cout << "> Input part of the word you would like to attempt to auto complete, or '-q' to quit to mode select: ";
             std::cin >> autoWord;
             while (autoWord != "-q") {
@@ -93,6 +96,7 @@ int main(int argc, char* argv[]){
                 std::cin >> autoWord;
             }
         }
+        std::cout << "----------- Mode Select ------------\n";
         std::cout << "> To search for a word type in '-s'.\n";
         std::cout << "> To use autocomplete, type in '-a'.\n";
         std::cout << "> To quit the program type '-q'.\n";
