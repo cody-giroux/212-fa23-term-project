@@ -25,9 +25,17 @@ No prior dependencies needed. Can be compiled using an up-to-date g++ compiler.
 One command line argument (optional): name of text file containing a list of words.
 
 The file name can also be inputted after the program runs if it's not passed in as an argument.
+For compilation (Omit operator signs) :
 ```
-g++ main.cpp trie.cpp -o 'executable name'
-./'executable name' 'text file name' 
+g++ main.cpp trie.cpp -o <executable_name>
+```
+To run:
+```
+./<executable_name> <testFile.txt>
+```
+or
+```
+./<executable_name>
 ```
 
 The format of the file should be one complete word per line.
