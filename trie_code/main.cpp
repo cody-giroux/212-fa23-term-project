@@ -15,6 +15,7 @@ void printMenu(){
     std::cout << "> To search for a word type in '-s'.\n";
     std::cout << "> To use autocomplete, type in '-a'.\n";
     std::cout << "> To quit the program type '-q'.\n";
+    std::cout<< " > To use spellcheck , type in '-sc'. \n";
 }
 
 void wordSearch(Trie * pTrie){
@@ -65,6 +66,40 @@ void wordAutocomplete(Trie * pTrie){
         std::cin >> autoWord;
     }
 };
+
+
+void spellcheck(Trie * pTrie){
+    std::string spellWord;
+    std::cout << "-------- Spell Check ---------\n";
+    std::cout << "> Enter your word, or enter '-q' to quit to mode select: ";
+    std::cin >> spellWord;
+
+    while (spellWord != "-q") {
+        std::vector<std::string> spellCheckWords = trie.spellcheck(spellWord);
+        std::cout <<spellCheckWords.size() <<std::endl; 
+        if (spellCheckWords.empty()) {
+            std::cout << "No similar words found for '" << spellWord << "'." << std::endl;
+        } else {
+            std::cout << "Here are the potential words you're trying to spell for '" << spellWord << "':" <<std::endl; 
+        for (int k = 0; k < spellCheckWords.size(); k++) {
+                std::cout << spellCheckWords[k] << std::endl;
+            }
+            std::cout << std::endl;
+                        
+        }
+
+        std::cout << "Did you find the word you were looking for? Enter Y or N: ";
+        std::cin >> answer;
+        if (answer == "Y") {
+            std::cout << "Great! Goodbye!" << std::endl;
+            return 0;
+            } else if (answer == "N") {
+                std::cout << "Enter your word or '-q' to quit to mode select: ";
+                std::cin >> spellWord;
+                continue;
+            }
+            
+}
 
 int main(int argc, char* argv[]){
     // Takes filename from user if it's not passed as an argument
