@@ -10,6 +10,62 @@ bool validInput(std::string word){
     return true;
 }
 
+void printMenu(){
+    std::cout << "----------- Mode Select ------------\n";
+    std::cout << "> To search for a word type in '-s'.\n";
+    std::cout << "> To use autocomplete, type in '-a'.\n";
+    std::cout << "> To quit the program type '-q'.\n";
+}
+
+void wordSearch(Trie * pTrie){
+    std::string searchWord;
+    std::cout << "------- Database Word Search -------\n";
+    std::cout << "> Input the word you would like to search for, or '-q' to quit to mode select: ";
+    std::cin >> searchWord;
+
+    while (searchWord != "-q") {
+        // Check if search valid
+        if (validInput(searchWord)) {
+            auto result = (*pTrie).search(searchWord);
+            if (result.first) {
+                std::cout << "Word '" << searchWord << "' found." << "\n";;
+                std::cout << "Times identical word appears in data: " << result.second << "\n";
+                std::cout << "Times word is used as a prefix: " << result.third << std::endl;
+            } else {
+                std::cout << "Word '" << searchWord << "' not found.\n";
+            }
+        } else {
+            std::cout << "Invalid search" << std::endl;
+        }
+        std::cout << "> Input the word you would like to search for, or '-q' to quit to mode select: ";
+        std::cin >> searchWord;
+    }
+}
+
+void wordAutocomplete(Trie * pTrie){
+    std::string autoWord;
+    std::cout << "-------- Word Autocomplete ---------\n";
+    std::cout << "> Input part of the word you would like to attempt to auto complete, or '-q' to quit to mode select: ";
+    std::cin >> autoWord;
+    while (autoWord != "-q") {
+        std::vector<std::string> autocompleteResults = (*pTrie).autocomplete(autoWord);
+        std::cout << "Here is a list of potential words you were looking for with the given prefix of: '"
+                  << autoWord << "': " << std::endl;
+        // outputs words with commas between all but last
+        int vecLength = autocompleteResults.size();
+        for (int index = 0; index < vecLength; index++) {
+            std::cout << autocompleteResults.at(index);
+            if (index < vecLength - 1) {
+                std::cout << ", ";
+            } else {
+                std::cout << std::endl;
+            }
+        }
+        std::cout << "> Input part of the word you would like to attempt to auto complete, or '-q' to quit to mode select: ";
+        std::cin >> autoWord;
+    }
+};
+
 int main(int argc, char* argv[]){
     // Takes filename from user if it's not passed as an argument
     std::string fileName;
@@ -28,6 +84,7 @@ int main(int argc, char* argv[]){
     }
 
     Trie trie;
+    Trie * pTrie = &trie;
     // Validates words before inputting into trie
     std::string word;
     while (inputFile >> word) {
@@ -40,66 +97,17 @@ int main(int argc, char* argv[]){
 
     // Main user input loop
     std::string mode;
-    std::cout << "----------- Mode Select ------------\n";
-    std::cout << "> To search for a word type in '-s'.\n";
-    std::cout << "> To use autocomplete, type in '-a'.\n";
-    std::cout << "> To quit the program type '-q'.\n";
+    printMenu();
     std::cin >> mode;
     while(mode != "-q") {
-        if (mode == "-s") {
-            // Search for a word in the trie
-            std::string searchWord;
-            std::cout << "------- Database Word Search -------\n";
-            std::cout << "> Input the word you would like to search for, or '-q' to quit to mode select: ";
-            std::cin >> searchWord;
 
-            while (searchWord != "-q") {
-                // Check if search valid
-                if (validInput(searchWord)) {
-                    auto result = trie.search(searchWord);
-                    if (result.first) {
-                        std::cout << "Word '" << searchWord << "' found." << "\n";;
-                        std::cout << "Times identical word appears in data: " << result.second << "\n";
-                        std::cout << "Times word is used as a prefix: " << result.third << std::endl;
-                    } else {
-                        std::cout << "Word '" << searchWord << "' not found.\n";
-                    }
-                } else {
-                    std::cout << "Invalid search" << std::endl;
-                }
-                std::cout << "> Input the word you would like to search for, or '-q' to quit to mode select: ";
-                std::cin >> searchWord;
-            }
-        }
+        // Search for a word in the trie
+        if (mode == "-s") { wordSearch(pTrie); }
 
-        if (mode == "-a") {
-            std::string autoWord;
-            std::cout << "-------- Word Autocomplete ---------\n";
-            std::cout << "> Input part of the word you would like to attempt to auto complete, or '-q' to quit to mode select: ";
-            std::cin >> autoWord;
-            while (autoWord != "-q") {
-                std::vector<std::string> autocompleteResults = trie.autocomplete(autoWord);
-                std::cout << "Here is a list of potential words you were looking for with the given prefix of: '"
-                          << autoWord << "': " << std::endl;
-                // outputs words with commas between all but last
-                int vecLength = autocompleteResults.size();
-                for (int index = 0; index < vecLength; index++) {
-                    std::cout << autocompleteResults.at(index);
-                    if (index < vecLength - 1) {
-                        std::cout << ", ";
-                    } else {
-                        std::cout << std::endl;
-                    }
+        // Autocomplete Given Word
+        if (mode == "-a") { wordAutocomplete(pTrie); }
 
-                }
-                std::cout << "> Input part of the word you would like to attempt to auto complete, or '-q' to quit to mode select: ";
-                std::cin >> autoWord;
-            }
-        }
-        std::cout << "----------- Mode Select ------------\n";
-        std::cout << "> To search for a word type in '-s'.\n";
-        std::cout << "> To use autocomplete, type in '-a'.\n";
-        std::cout << "> To quit the program type '-q'.\n";
+        printMenu();
         std::cin >> mode;
     }
 
