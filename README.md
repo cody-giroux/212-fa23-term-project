@@ -16,7 +16,7 @@ Cody Giroux  (cody-giroux)
 ## Description
 Program relying on a trie data structure to look up words in a database and/or autcomplete words using a provided dictionary.
 
-Dictionary file 'popular.txt' was acquired from [this repository](https://github.com/dwyl/english-words).
+Dictionary file 'popular.txt' was acquired from [this repository](https://github.com/dolph/dictionary/tree/master).
 The only edit made to popular.txt was the removal of certain words.
 
 ## Compile and Use Instructions
