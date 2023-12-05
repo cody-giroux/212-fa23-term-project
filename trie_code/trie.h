@@ -10,6 +10,7 @@
 class TrieNode {
 public:
     std::unordered_map<char, TrieNode*> children;
+    std::string word;
     bool isEndOfWord;
     int count;          // Count for the specific word
     int prefixCount;    // Count for words sharing the common prefix
@@ -20,6 +21,7 @@ public:
 class Trie {
 private:
     TrieNode* root;
+
 
 public:
     Trie();
@@ -32,6 +34,10 @@ public:
     void generateDotFile(const std::string& filename);
 
     std::vector<std::string> autocomplete(const std::string& prefix);
+
+    std::vector<std::string>spellcheck(const std::string&word); 
+
+    void findSimilarWords(TrieNode* node, const std::string& word, std::vector<std::string>& similarWords, double threshold);
 
 
 
